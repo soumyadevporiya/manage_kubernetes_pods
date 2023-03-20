@@ -23,6 +23,7 @@ def hello_world():
 def get_pod_details():
     config.load_incluster_config()
     v1 = kubernetes.client.CoreV1Api()
+    #v2 = kubernetes.client.V1Pod()
     #ret = v1.list_node()
     ret = v1.list_pod_for_all_namespaces(watch=False)
     #details = " " + ret
@@ -32,6 +33,23 @@ def get_pod_details():
 
     return jsonify({"message":"POD Details ", "Information: ": details})
 
+# K8 Pod Details
+@app.route('/hello/readpod')
+def get_pod_details():
+    config.load_incluster_config()
+    v1 = kubernetes.client.CoreV1Api()
+    #podspec_obj = kubernetes.client.V1Pod()
+    #ret = v1.list_node()
+    name = 'dataflowpod'
+    namespace = 'default'
+    ret = v1.read_namespaced_pod(name, namespace)
+
+    details = " "
+
+    details = details + " " + ret + "\n"
+
+    return jsonify({"message":"POD Details ", "Information: ": details})
+
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=80, threaded=True)
+    app.run(host="0.0.0.0", port=60, threaded=True)
