@@ -35,7 +35,7 @@ def get_pod_details():
 
 # K8 Pod Details
 @app.route('/hello/readpod')
-def get_pod_details():
+def get_readpod():
     config.load_incluster_config()
     v1 = kubernetes.client.CoreV1Api()
     #podspec_obj = kubernetes.client.V1Pod()
