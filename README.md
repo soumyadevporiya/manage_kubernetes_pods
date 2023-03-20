@@ -8,3 +8,4 @@ API Documentation - https://github.com/kubernetes-client/python/blob/master/kube
 Ephemeral POD - https://kubernetes.io/docs/concepts/workloads/pods/ephemeral-containers/
 Restart Policy - https://github.com/kubernetes-client/python/blob/master/kubernetes/client/models/v1_pod_spec.py
 Container Creation  -  https://www.programcreek.com/python/example/96329/kubernetes.client.V1PodSpec
+Kuberenetes Python API Object Hierarchy - https://github.com/kubernetes-client/python/blob/master/kubernetes/client/models/v1_pod_spec.py
