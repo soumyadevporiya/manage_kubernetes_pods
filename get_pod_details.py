@@ -1,6 +1,7 @@
 import urllib.request
 from flask import Flask
 from flask import jsonify
+import time
 import json
 from kafka import KafkaConsumer
 
@@ -48,6 +49,43 @@ def get_readpod():
         details = "Exists"
 
     return jsonify({"message":"POD Details ", "Information: ": details})
+
+# K8 Pod Creation
+@app.route('/hello/createpod')
+def get_createpod():
+    config.load_incluster_config()
+    v1 = kubernetes.client.CoreV1Api()
+
+    name = 'my-dataflow-pod'
+    namespace = 'default'
+
+    pod_manifest = {
+        'apiVersion': 'v1',
+        'kind': 'Pod',
+        'metadata': {
+            'name': name
+        },
+        'spec': {
+            'restart_policy': 'Never',
+            'containers': [{
+                'image': 'gcr.io/mimetic-parity-378803/dataflow_pipeline:latest',
+                'name': 'data-flowcontainer'
+            }]
+        }
+    }
+    resp = v1.create_namespaced_pod(body=pod_manifest, namespace='default')
+    while True:
+        resp = v1.read_namespaced_pod(name=name, namespace='default')
+        if resp.status.phase != 'Pending':
+            break
+        time.sleep(1)
+
+    ret = v1.read_namespaced_pod(name, namespace)
+
+    if ret:
+        details = "Created"
+
+    return jsonify({"message": "POD Details ", "Information: ": details})
 
 
 if __name__ == '__main__':
