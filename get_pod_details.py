@@ -44,9 +44,11 @@ def get_readpod():
     namespace = 'default'
     ret = v1.read_namespaced_pod(name, namespace)
 
-    details = " "
+    if ret:
+        details = "Exists"
 
-    details = details + " " + ret + "\n"
+
+    details = details + " " +  + "\n"
 
     return jsonify({"message":"POD Details ", "Information: ": details})
 
