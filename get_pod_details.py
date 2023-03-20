@@ -47,9 +47,6 @@ def get_readpod():
     if ret:
         details = "Exists"
 
-
-    details = details + " " +  + "\n"
-
     return jsonify({"message":"POD Details ", "Information: ": details})
 
 
